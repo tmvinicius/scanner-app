@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Nome provisório: o nome definitivo precisa ser original (sem imitar CamScanner). -->
+    <string name="app_name">Scan App</string>
+
+    <!-- Tela inicial -->
+    <string name="action_scan">Escanear</string>
+    <string name="home_empty_message">Toque em Escanear para criar seu primeiro PDF</string>
+</resources>

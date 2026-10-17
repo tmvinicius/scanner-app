@@ -4,44 +4,21 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import br.com.tmvinicius.scanner_app.ui.theme.ScannerappTheme
+import br.com.tmvinicius.scanner_app.ui.home.HomeScreen
+import br.com.tmvinicius.scanner_app.ui.theme.ScannerTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+/** Única Activity do app: aplica o tema e hospeda as telas Compose. */
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            ScannerappTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
+            ScannerTheme {
+                // M1 troca esta chamada pelo NavHost; M3 liga o botão ao ML Kit.
+                HomeScreen(onScanClick = {})
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    ScannerappTheme {
-        Greeting("Android")
     }
 }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <style name="Theme.Scannerapp" parent="android:Theme.Material.Light.NoActionBar" />
+    <!-- Tema base da janela; as cores reais vêm do ScannerTheme (Compose). -->
+    <style name="Theme.Scanner" parent="android:Theme.Material.Light.NoActionBar" />
 </resources>
