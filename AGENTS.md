@@ -67,16 +67,24 @@ Ao escrever código, deixe essas evoluções fáceis (por exemplo, o limite de p
 | Compartilhamento | `FileProvider` + `Intent.ACTION_SEND` |
 | Salvar externamente | Storage Access Framework (`ActivityResultContracts.CreateDocument`) |
 | Splash | SplashScreen API (androidx.core) |
-| Build | Gradle Kotlin DSL + catálogo de versões (`gradle/libs.versions.toml`) |
+| Build | Gradle Kotlin DSL + catálogo de versões (`gradle/libs.versions.toml`), AGP 9 com Kotlin embutido, KSP |
 | Testes | JUnit, MockK, kotlinx-coroutines-test, Compose UI Test |
 
 Configuração de SDK:
 
 - `minSdk = 24`
-- `targetSdk = 36` e `compileSdk = 36` (exigência da Google Play para apps novos e atualizações a partir de 31/08/2026)
+- `targetSdk = 36` (exigência da Google Play para apps novos e atualizações a partir de 31/08/2026)
+- `compileSdk = 37`: as versões atuais de Compose, Lifecycle e Activity exigem compilar contra a API 37. Isso não muda o comportamento do app em execução; quem define isso é o `targetSdk`.
 - Revisar o `targetSdk` uma vez por ano, quando a Google Play elevar o requisito.
 
-Toda dependência nova entra pelo `libs.versions.toml`, nunca com versão escrita direto no `build.gradle.kts`.
+Regras do build:
+
+- Toda dependência nova entra pelo `libs.versions.toml`, nunca com versão escrita direto no `build.gradle.kts`.
+- O AGP 9 já compila Kotlin sozinho: **não** aplique o plugin `org.jetbrains.kotlin.android`. Configure o compilador em `kotlin { compilerOptions { … } }`, não em `android.kotlinOptions`.
+- A versão do Kotlin é definida pela entrada `kotlin` do catálogo, aplicada ao `buildscript` classpath do `build.gradle.kts` raiz (o AGP 9 sozinho usaria o Kotlin 2.2.10). Plugin Compose, KSP e Kotlin sobem juntos.
+- Processadores de anotação (Hilt, Room) usam **KSP**. Não use `kapt`.
+- Regras do R8 ficam em `app/src/main/keepRules/` (DSL `optimization {}` do AGP 9), não em `proguard-rules.pro`.
+- Use sempre o Gradle Wrapper (`./gradlew`).
 
 ## 5. Arquitetura
 
@@ -128,7 +136,7 @@ app/src/main/java/br/com/seuapp/scanner/
 └── di/                    módulos Hilt
 ```
 
-> O pacote `br.com.seuapp.scanner` é provisório. Se o `applicationId` definitivo já estiver no `build.gradle.kts`, ele prevalece.
+> O pacote em uso é `br.com.tmvinicius.scanner_app` (mesmo valor de `namespace` e `applicationId` em `app/build.gradle.kts`); onde este guia diz `br.com.seuapp.scanner`, leia esse pacote. O `applicationId` não pode mudar depois da primeira publicação na Google Play.
 
 ## 6. Telas
 
@@ -205,7 +213,11 @@ GmsDocumentScannerOptions.Builder()
 - UI: Compose UI Test para fluxos principais da tela inicial e da tela de documento.
 - O ML Kit não é testável em unitários: isole-o atrás de uma interface (`DocumentScanner`) e use um fake nos testes.
 
-## 11. Comandos
+## 11. Roadmap
+
+A v1 está dividida em módulos de desenvolvimento (M0 a M7) em `docs/ROADMAP.md`, com prioridade, dependências e critério de aceite de cada um. Antes de começar uma tarefa, veja em qual módulo ela se encaixa e não adiante itens de módulos futuros ou do backlog. Ao concluir um item, marque-o no roadmap.
+
+## 12. Comandos
 
 ```bash
 ./gradlew assembleDebug          # build de debug
@@ -217,14 +229,14 @@ GmsDocumentScannerOptions.Builder()
 
 Antes de considerar uma tarefa concluída: o projeto compila, `test` e `lint` passam, e nenhuma permissão ou dependência proibida foi adicionada.
 
-## 12. Publicação (contexto)
+## 13. Publicação (contexto)
 
 - Formato de envio: **AAB** com Play App Signing.
 - Formulário de Segurança dos Dados: "nenhum dado coletado ou compartilhado". Qualquer mudança que colete dados quebra essa declaração e precisa ser aprovada pelo usuário.
 - Conta pessoal nova exige teste fechado com pelo menos 12 testadores por 14 dias seguidos antes da produção.
-- Nunca commite keystore, senhas de assinatura ou `local.properties`.
+- Nunca commite keystore, senhas de assinatura, `local.properties`, `.gradle/` ou caches da IDE (`.idea/`).
 
-## 13. Quando estiver em dúvida
+## 14. Quando estiver em dúvida
 
 - Prefira a solução mais simples que respeite as decisões fixas da seção 2.
 - Se uma tarefa exigir rede, nova permissão, coleta de dados, back-end ou mudança de stack, **pare e pergunte ao usuário** antes de implementar.
