@@ -3,7 +3,22 @@
     <!-- Nome provisório: o nome definitivo precisa ser original (sem imitar CamScanner). -->
     <string name="app_name">Scan App</string>
 
+    <!-- Ações comuns -->
+    <string name="action_back">Voltar</string>
+    <string name="action_settings">Configurações</string>
+
     <!-- Tela inicial -->
     <string name="action_scan">Escanear</string>
     <string name="home_empty_message">Toque em Escanear para criar seu primeiro PDF</string>
+    <!-- Data e tamanho do arquivo, ex.: "27/10/26 09:15 · 240 kB" -->
+    <string name="document_details">%1$s · %2$s</string>
+
+    <!-- Tela Documento -->
+    <string name="document_title_fallback">Documento</string>
+    <string name="document_preview_placeholder">A prévia do documento vai aparecer aqui</string>
+    <string name="document_not_found">Documento não encontrado</string>
+
+    <!-- Configurações -->
+    <string name="settings_title">Configurações</string>
+    <string name="settings_placeholder">Tema, padrão de nome dos arquivos e política de privacidade vão aparecer aqui.</string>
 </resources>
