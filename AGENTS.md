@@ -127,7 +127,8 @@ app/src/main/java/br/com/seuapp/scanner/
 │   ├── settings/          SettingsScreen + SettingsViewModel
 │   └── components/        componentes Compose reutilizáveis
 ├── domain/
-│   ├── model/             Document
+│   ├── model/             Document, DocumentError, DocumentNaming, AppSettings
+│   ├── repository/        interfaces: DocumentRepository, SettingsRepository, Clock
 │   └── usecase/           SaveScan, ShareDocument, ExportDocument, RenameDocument, DeleteDocument
 ├── data/
 │   ├── local/             Room: DocumentEntity, DocumentDao, AppDatabase
@@ -138,7 +139,7 @@ app/src/main/java/br/com/seuapp/scanner/
 └── di/                    módulos Hilt
 ```
 
-> O pacote em uso é `br.com.tmvinicius.scanner_app` (mesmo valor de `namespace` e `applicationId` em `app/build.gradle.kts`); onde este guia diz `br.com.seuapp.scanner`, leia esse pacote. O `applicationId` não pode mudar depois da primeira publicação na Google Play.
+> O pacote em uso é `br.com.tmvinicius.scanner_app` (mesmo valor de `namespace` e `applicationId` em `../00-AREA-51/scanner-app-m2/app/build.gradle.kts`); onde este guia diz `br.com.seuapp.scanner`, leia esse pacote. O `applicationId` não pode mudar depois da primeira publicação na Google Play.
 
 ## 6. Telas
 
@@ -212,12 +213,14 @@ GmsDocumentScannerOptions.Builder()
 - Casos de uso e repositório: testes unitários com JUnit + MockK + `kotlinx-coroutines-test`.
 - ViewModels: testar transições de `UiState` (ex.: lista vazia → com documentos, erro ao renomear).
 - Room: testes com banco em memória.
+- Testes instrumentados rodam com o `HiltTestRunner` (`../00-AREA-51/scanner-app-m2/app/src/androidTest`); módulos de teste com `@TestInstallIn` trocam os reais (ex.: `TestDatabaseModule` usa banco em memória).
+- O schema do Room é exportado para `app/schemas/` e vai para o Git; ao mudar uma entidade, suba a versão do banco e escreva a migração.
 - UI: Compose UI Test para fluxos principais da tela inicial e da tela de documento.
 - O ML Kit não é testável em unitários: isole-o atrás de uma interface (`DocumentScanner`) e use um fake nos testes.
 
 ## 11. Roadmap
 
-A v1 está dividida em módulos de desenvolvimento (M0 a M7) em `docs/ROADMAP.md`, com prioridade, dependências e critério de aceite de cada um. Antes de começar uma tarefa, veja em qual módulo ela se encaixa e não adiante itens de módulos futuros ou do backlog. Ao concluir um item, marque-o no roadmap.
+A v1 está dividida em módulos de desenvolvimento (M0 a M7) em `docs`, com prioridade, dependências e critério de aceite de cada um. Antes de começar uma tarefa, veja em qual módulo ela se encaixa e não adiante itens de módulos futuros ou do backlog. Ao concluir um item, marque-o no roadmap.
 
 ## 12. Comandos
 
