@@ -22,7 +22,7 @@ Objetivo de produto: chegar do toque em "Escanear" ao PDF compartilhado com o m�
 | --- | --- |
 | Plataforma | Somente Android. Nada de iOS, Flutter, React Native ou KMP |
 | Linguagem | Kotlin (sem Java em código novo) |
-| UI | Jetpack Compose + Material 3. Sem XML de layout, sem Fragments |
+| UI  | Jetpack Compose + Material 3. Sem XML de layout, sem Fragments |
 | Back-end | **Não existe servidor.** Tudo roda no aparelho, 100% offline |
 | Escaneamento | ML Kit Document Scanner (`play-services-mlkit-document-scanner`) |
 | Monetização | App gratuito, **sem anúncios**, sem compras no app |
@@ -39,11 +39,13 @@ Consequências práticas:
 ## 3. Escopo
 
 ### v1 (atual)
+
 - Escanear **uma página** por documento, com recorte automático e ajuste manual.
 - Gerar PDF, listar documentos, compartilhar, salvar no aparelho, abrir em outro app, renomear, excluir.
 - Tela de Configurações: tema (sistema/claro/escuro), padrão de nome de arquivo, política de privacidade, versão.
 
 ### Fora da v1 (não implementar sem pedido)
+
 - Várias páginas por PDF (v1.1)
 - Filtros de imagem (v1.2)
 - Importar da galeria (v1.3)
@@ -56,8 +58,8 @@ Ao escrever código, deixe essas evoluções fáceis (por exemplo, o limite de p
 | Peça | Tecnologia |
 | --- | --- |
 | Linguagem | Kotlin 2.x |
-| UI | Jetpack Compose, Material 3, cores dinâmicas (Android 12+) |
-| Navegação | Navigation Compose |
+| UI  | Jetpack Compose, Material 3, cores dinâmicas (Android 12+) |
+| Navegação | Navigation Compose com rotas tipadas (`@Serializable`, plugin `kotlin-serialization`) |
 | Estado | ViewModel + `StateFlow`, Kotlin Coroutines |
 | Injeção de dependência | Hilt |
 | Banco local | Room (SQLite) |
