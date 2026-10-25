@@ -96,10 +96,11 @@ fun HomeScreen(
             )
         },
     ) { innerPadding ->
-        if (uiState.documents.isEmpty()) {
-            HomeEmptyState(modifier = Modifier.padding(innerPadding))
-        } else {
-            DocumentList(
+        when {
+            // Ainda lendo o banco: não mostra nada para o estado vazio não piscar.
+            uiState.isLoading -> Unit
+            uiState.documents.isEmpty() -> HomeEmptyState(modifier = Modifier.padding(innerPadding))
+            else -> DocumentList(
                 documents = uiState.documents,
                 onDocumentClick = onDocumentClick,
                 modifier = Modifier.padding(innerPadding),

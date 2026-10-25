@@ -56,6 +56,8 @@ fun DocumentScreen(
             )
         },
     ) { innerPadding ->
+        // Ainda lendo o banco: não mostra "não encontrado" antes da hora.
+        if (uiState.isLoading) return@Scaffold
         Column(
             modifier = Modifier
                 .padding(innerPadding)
